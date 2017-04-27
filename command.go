@@ -10,6 +10,7 @@ type Command interface {
 	URL() *url.URL
 	Method() string
 	SourceURL() *url.URL
+	FinalURL() *url.URL
 	Depth() int
 	Retries() int
 }
@@ -17,12 +18,17 @@ type Command interface {
 type Cmd struct {
 	*fetchbot.Cmd
 	S *url.URL
+	F *url.URL
 	D int
 	R int
 }
 
 func (c *Cmd) SourceURL() *url.URL {
 	return c.S
+}
+
+func (c *Cmd) FinalURL() *url.URL {
+	return c.F
 }
 
 func (c *Cmd) Depth() int {
@@ -36,12 +42,17 @@ func (c *Cmd) Retries() int {
 type CmdBasicAuth struct {
 	*fetchbot.Cmd
 	S          *url.URL
+	F          *url.URL
 	D          int
 	R          int
 	user, pass string
 }
 
 func (c *CmdBasicAuth) SourceURL() *url.URL {
+	return c.S
+}
+
+func (c *CmdBasicAuth) FinalURL() *url.URL {
 	return c.S
 }
 
