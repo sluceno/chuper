@@ -186,6 +186,8 @@ func (c *Crawler) newErrorHandler() fetchbot.Handler {
 			"url":    ctx.Cmd.URL(),
 			"method": ctx.Cmd.Method(),
 		}).Error(err)
+
+		c.q.Send(ctx.Cmd)
 	})
 }
 
