@@ -14,6 +14,7 @@ type Context interface {
 	URL() *url.URL
 	Method() string
 	SourceURL() *url.URL
+	FinalURL() *url.URL
 	Depth() int
 	Retries() int
 }
@@ -78,5 +79,25 @@ func (c *Ctx) Retries() int {
 		return cmd.Retries()
 	default:
 		return 0
+	}
+}
+
+func (c *Ctx) FinalURL() *url.URL {
+	switch cmd := c.Cmd.(type) {
+	case *Cmd:
+		return cmd.FinalURL()
+	case *CmdBasicAuth:
+		return cmd.FinalURL()
+	default:
+		return nil
+	}
+}
+
+func (c *Ctx) SetFinalURL(url *url.URL) {
+	switch cmd := c.Cmd.(type) {
+	case *Cmd:
+		cmd.F = url
+	case *CmdBasicAuth:
+		cmd.F = url
 	}
 }

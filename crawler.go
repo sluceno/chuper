@@ -217,6 +217,7 @@ func (c *Crawler) newRequestHandler() fetchbot.Handler {
 func (c *Crawler) newHandler(procs ...Processor) fetchbot.Handler {
 	return fetchbot.HandlerFunc(func(ctx *fetchbot.Context, res *http.Response, err error) {
 		context := &Ctx{ctx, c.Cache, c.Logger}
+		context.SetFinalURL(res.Request.URL)
 
 		body, err := ioutil.ReadAll(res.Body)
 		if err != nil {
