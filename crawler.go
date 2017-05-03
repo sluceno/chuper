@@ -35,6 +35,7 @@ type Crawler struct {
 	UserAgent       string
 	HTTPClient      fetchbot.Doer
 	Cache           Cache
+	MaxIdleTime     time.Duration
 
 	mux *fetchbot.Mux
 	f   *fetchbot.Fetcher
@@ -68,6 +69,11 @@ func (c *Crawler) Start() Enqueuer {
 	f.DisablePoliteness = !c.CrawlPoliteness
 	f.HttpClient = c.HTTPClient
 	f.UserAgent = c.UserAgent
+
+	if c.MaxIdleTime != time.Duration(0) {
+		f.WorkerIdleTTL = c.MaxIdleTime
+		f.AutoClose = true
+	}
 
 	c.f = f
 	c.q = c.f.Start()
