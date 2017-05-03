@@ -15,6 +15,7 @@ type Context interface {
 	Method() string
 	SourceURL() *url.URL
 	Depth() int
+	Retries() int
 }
 
 type Ctx struct {
@@ -64,6 +65,17 @@ func (c *Ctx) Depth() int {
 		return cmd.Depth()
 	case *CmdBasicAuth:
 		return cmd.Depth()
+	default:
+		return 0
+	}
+}
+
+func (c *Ctx) Retries() int {
+	switch cmd := c.Cmd.(type) {
+	case *Cmd:
+		return cmd.Retries()
+	case *CmdBasicAuth:
+		return cmd.Retries()
 	default:
 		return 0
 	}
