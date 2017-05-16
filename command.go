@@ -1,6 +1,7 @@
 package chuper
 
 import (
+	"net/http"
 	"net/url"
 
 	"github.com/PuerkitoBio/fetchbot"
@@ -40,30 +41,19 @@ func (c *Cmd) Retries() int {
 }
 
 type CmdBasicAuth struct {
-	*fetchbot.Cmd
-	S          *url.URL
-	F          *url.URL
-	D          int
-	R          int
+	Cmd
 	user, pass string
-}
-
-func (c *CmdBasicAuth) SourceURL() *url.URL {
-	return c.S
-}
-
-func (c *CmdBasicAuth) FinalURL() *url.URL {
-	return c.S
-}
-
-func (c *CmdBasicAuth) Depth() int {
-	return c.D
-}
-
-func (c *CmdBasicAuth) Retries() int {
-	return c.R
 }
 
 func (c *CmdBasicAuth) BasicAuth() (string, string) {
 	return c.user, c.pass
+}
+
+type CmdHeader struct {
+	Cmd
+	header http.Header
+}
+
+func (c *CmdHeader) Header() http.Header {
+	return c.header
 }

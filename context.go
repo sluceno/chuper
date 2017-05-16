@@ -55,6 +55,8 @@ func (c *Ctx) SourceURL() *url.URL {
 		return cmd.SourceURL()
 	case *CmdBasicAuth:
 		return cmd.SourceURL()
+	case *CmdHeader:
+		return cmd.SourceURL()
 	default:
 		return nil
 	}
@@ -65,6 +67,8 @@ func (c *Ctx) Depth() int {
 	case *Cmd:
 		return cmd.Depth()
 	case *CmdBasicAuth:
+		return cmd.Depth()
+	case *CmdHeader:
 		return cmd.Depth()
 	default:
 		return 0
@@ -77,6 +81,8 @@ func (c *Ctx) Retries() int {
 		return cmd.Retries()
 	case *CmdBasicAuth:
 		return cmd.Retries()
+	case *CmdHeader:
+		return cmd.Retries()
 	default:
 		return 0
 	}
@@ -88,6 +94,8 @@ func (c *Ctx) FinalURL() *url.URL {
 		return cmd.FinalURL()
 	case *CmdBasicAuth:
 		return cmd.FinalURL()
+	case *CmdHeader:
+		return cmd.FinalURL()
 	default:
 		return nil
 	}
@@ -98,6 +106,8 @@ func (c *Ctx) SetFinalURL(url *url.URL) {
 	case *Cmd:
 		cmd.F = url
 	case *CmdBasicAuth:
+		cmd.F = url
+	case *CmdHeader:
 		cmd.F = url
 	}
 }
