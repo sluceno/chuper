@@ -191,7 +191,7 @@ func parseLogLevel(level string) logrus.Level {
 func (c *Crawler) newErrorHandler() fetchbot.Handler {
 	return fetchbot.HandlerFunc(func(ctx *fetchbot.Context, res *http.Response, err error) {
 		c.Logger.WithFields(logrus.Fields{
-			"url":    ctx.Cmd.URL(),
+			"url":    ctx.Cmd.URL().String(),
 			"method": ctx.Cmd.Method(),
 		}).Error(err)
 
@@ -208,7 +208,7 @@ func (c *Crawler) newRequestHandler() fetchbot.Handler {
 				"status":       res.StatusCode,
 				"content_type": res.Header.Get("Content-Type"),
 				"depth":        context.Depth(),
-			}).Info(context.URL())
+			}).Info(context.URL().String())
 		}
 		c.mux.Handle(ctx, res, err)
 	})
@@ -222,7 +222,7 @@ func (c *Crawler) newHandler(procs ...Processor) fetchbot.Handler {
 		body, err := ioutil.ReadAll(res.Body)
 		if err != nil {
 			c.Logger.WithFields(logrus.Fields{
-				"url":    context.URL(),
+				"url":    context.URL().String(),
 				"method": context.Method(),
 			}).Error(err)
 			return
@@ -232,7 +232,7 @@ func (c *Crawler) newHandler(procs ...Processor) fetchbot.Handler {
 		doc, err := goquery.NewDocumentFromReader(bytes.NewReader(body))
 		if err != nil {
 			c.Logger.WithFields(logrus.Fields{
-				"url":    context.URL(),
+				"url":    context.URL().String(),
 				"method": context.Method(),
 			}).Error(err)
 			return
