@@ -239,7 +239,7 @@ func (c *Crawler) newHandler(procs ...Processor) fetchbot.Handler {
 		}
 
 		for _, p := range procs {
-			ok := p.Process(context, body, doc)
+			ok := p.Process(context, res, body, doc)
 			if !ok {
 				return
 			}
